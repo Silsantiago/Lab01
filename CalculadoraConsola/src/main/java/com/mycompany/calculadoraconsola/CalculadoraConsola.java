@@ -3,32 +3,51 @@
  */
 
 package com.mycompany.calculadoraconsola;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class CalculadoraConsola {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
+        char continuar;
         
-        System.out.print("Ingrese el primer número: ");
-        double num1 = scanner.nextDouble();
+        do {
+            double num1 = 0, num2 = 0;
+            char operador = ' ';
+            
+            try {
+                System.out.print("Ingrese el primer número: ");
+                num1 = scanner.nextDouble();
+                
+                System.out.print("Ingrese el segundo número: ");
+                num2 = scanner.nextDouble();
+                
+                System.out.print("Ingrese un operador (+, -, *, /): ");
+                operador = scanner.next().charAt(0);
+                
+                double resultado = calcular(num1, num2, operador);
+                
+                if (Double.isNaN(resultado)) {
+                    System.out.println("¡Error! Operación no válida.");
+                } else {
+                    System.out.println("El resultado es: " + resultado);
+                }
+                
+            } catch (InputMismatchException e) {
+                System.out.println("¡Error! Entrada no válida. Por favor, ingrese valores numéricos.");
+                scanner.next(); 
+            }
+            
+            System.out.print("¿Desea realizar otro cálculo? (s/n): ");
+            continuar = scanner.next().charAt(0);
+            
+        } while (continuar == 's' || continuar == 'S');
         
-        System.out.print("Ingrese el segundo número: ");
-        double num2 = scanner.nextDouble();
-        
-        System.out.print("Ingrese un operador (+, -, *, /): ");
-        char operator = scanner.next().charAt(0);
-        
-        double result = calculate(num1, num2, operator);
-        
-        if (Double.isNaN(result)) {
-            System.out.println("¡Error! Operación no válida.");
-        } else {
-            System.out.println("El resultado es: " + result);
-        }
+        scanner.close(); 
     }
     
-    public static double calculate(double num1, double num2, char operator) {
-        switch (operator) {
+    public static double calcular(double num1, double num2, char operador) {
+        switch (operador) {
             case '+':
                 return num1 + num2;
             case '-':
