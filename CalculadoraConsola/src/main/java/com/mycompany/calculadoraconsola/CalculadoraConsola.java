@@ -3,43 +3,46 @@
  */
 
 package com.mycompany.calculadoraconsola;
-
 import java.util.Scanner;
 
 public class CalculadoraConsola {
-
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-
-        System.out.println("Introduce el primer número:");
+        
+        System.out.print("Ingrese el primer número: ");
         double num1 = scanner.nextDouble();
-
-        System.out.println("Introduce la operación (+, -, *, /):");
-        String operacion = scanner.next();
-
-        System.out.println("Introduce el segundo número:");
+        
+        System.out.print("Ingrese el segundo número: ");
         double num2 = scanner.nextDouble();
-
-        double resultado = 0;
-
-        switch (operacion) {
-            case "+":
-                resultado = num1 + num2;
-                break;
-            case "-":
-                resultado = num1 - num2;
-                break;
-            case "*":
-                resultado = num1 * num2;
-                break;
-            case "/":
-                resultado = num1 / num2;
-                break;
-            default:
-                System.out.println("Operación no válida.");
-                return;
+        
+        System.out.print("Ingrese un operador (+, -, *, /): ");
+        char operator = scanner.next().charAt(0);
+        
+        double result = calculate(num1, num2, operator);
+        
+        if (Double.isNaN(result)) {
+            System.out.println("¡Error! Operación no válida.");
+        } else {
+            System.out.println("El resultado es: " + result);
         }
-
-        System.out.println("El resultado es: " + resultado);
+    }
+    
+    public static double calculate(double num1, double num2, char operator) {
+        switch (operator) {
+            case '+':
+                return num1 + num2;
+            case '-':
+                return num1 - num2;
+            case '*':
+                return num1 * num2;
+            case '/':
+                if (num2 != 0) {
+                    return num1 / num2;
+                } else {
+                    return Double.NaN; 
+                }
+            default:
+                return Double.NaN; 
+        }
     }
 }
